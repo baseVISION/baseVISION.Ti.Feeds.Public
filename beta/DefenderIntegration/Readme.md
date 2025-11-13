@@ -224,17 +224,11 @@ The integration uses sophisticated Kusto queries to:
 2. **Review Kusto Query Results**:
    ```kusto
    // Run this query in your Sentinel workspace to see available IOCs
-   ThreatIntelligenceIndicator
+   ThreatIntelIndicators
    | where ConfidenceScore > 99 
      and Active == true 
      and SourceSystem == "baseVISION-SOC-TI-Feed"
-   | summarize count() by IocType = case(
-       isnotempty(NetworkSourceIP) or isnotempty(NetworkIP) or isnotempty(NetworkDestinationIP), "IpAddress",
-       isnotempty(Url), "Url",
-       isnotempty(FileHashValue), "FileSha256",
-       isnotempty(DomainName), "DomainName",
-       "Other"
-   )
+   | summarize count() by ObservableKey
    ```
 
 ## 📊 Monitoring & Analytics
